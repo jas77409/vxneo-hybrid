@@ -1,0 +1,21 @@
+﻿name: Deploy to Production
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Deploy to Linode
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 66.228.38.29
+          username: deploy
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/deploy/vxneo-hybrid
+            ./deploy.sh
